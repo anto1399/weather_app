@@ -8,10 +8,10 @@ const getForecastInfo = (latitude, longitude, callback) => {
     encodeURIComponent(longitude) +
     "?units=si";
 
-  request({ url: url, json: true }, (error, response) => {
+  request({ url, json: true }, (error, {body}) => {
     if (error) {
       callback("Sorry, there was problem connecting to weather!", undefined);
-    } else if (response.body.error) {
+    } else if (body.error) {
       callback(
         "Sorry, unable to find the location, check the given lat & long values.",
         undefined
@@ -19,12 +19,12 @@ const getForecastInfo = (latitude, longitude, callback) => {
     } else {
       callback(undefined, {
         info:
-          response.body.daily.data[0].summary +
+          body.daily.data[0].summary +
           " It is currently " +
-          response.body.currently.temperature +
+          body.currently.temperature +
           " degrees out there." +
           " There is a " +
-          response.body.currently.precipProbability +
+          body.currently.precipProbability +
           "% chance of rain in."
       });
     }
@@ -32,5 +32,5 @@ const getForecastInfo = (latitude, longitude, callback) => {
 };
 
 module.exports = {
-  getForecastInfo: getForecastInfo
+  getForecastInfo
 };
