@@ -2,7 +2,12 @@ const geocode = require("./utils/geocode");
 const forecast = require("./utils/forecast");
 
 // Geocode chaining with the forcast info. return if error and don't proceed
-geocode.getGeocodeInfo("Kumasi Ghana", (error, geocodeData) => {
+
+const userLocation = process.argv[2];
+if (!userLocation) {
+    return console.log("Please provide valid location name");
+}else{
+    geocode.getGeocodeInfo(userLocation.toString(), (error, geocodeData) => {
   if (error) {
     return console.log(error);
   }
@@ -18,3 +23,5 @@ geocode.getGeocodeInfo("Kumasi Ghana", (error, geocodeData) => {
     }
   );
 });
+
+}
